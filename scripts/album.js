@@ -89,14 +89,23 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 
 var albums = [ albumMarconi, albumPicasso, albumCapoeira];
-var switchAlbums = function() {
-    for (var i = 0 ; i<albums.length ; i++) {
-         if (i === albums.length) {
-            i=0;
-        }
-        setCurrentAlbum(albums[i]);
+// var switchAlbums = function() {
+//     for (var i = 0 ; i<albums.length ; i++) {
+//          if (i === albums.length) {
+//             i=0;
+//         }
+//         setCurrentAlbum(albums[i]);
        
-    }
-};
+//     }
+// };
+
+var switchAlbums = function() {
+  var nextAlbum = albums[indexOf(currentAlbum) + 1];
+  if (nextAlbum == albums.length) {
+    nextAlbum = 0;
+  }
+  currentAlbum = albums[nextAlbum];
+  console.log(albums[nextAlbum]);
+}
 document.getElementsByClassName('album-cover-art')[0].onclick = function() {switchAlbums(albums)};
 
