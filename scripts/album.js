@@ -1,4 +1,6 @@
 //Sample Album
+
+
 var albumPicasso = {
     title: 'The Color',
     artist: 'Pablo Picasso',
@@ -29,6 +31,21 @@ var albumMarconi = {
          { title: 'Wrong phone number', duration: '2:15'}
      ]
  };
+
+var albumCapoeira = {
+    title: 'Capoeira Voices',
+    artist: 'Mestre Acordeon',
+    label: 'UCA music',
+    year: '2011',
+    albumArtUrl: 'assets/images/album_covers/01.png',
+    songs: [
+        { title: 'Ogum E', duration: '2:22'},
+        { title: 'Eu vi la', duration: '3:33'},
+        { title: 'Catarina', duration: '1:01' },
+        { title: 'Vou Navegando', duration: '2:21'}
+    ]
+    
+};
 
 var createSongRow = function(songNumber, songName, songLength) {
     var template = 
@@ -67,3 +84,19 @@ var createSongRow = function(songNumber, songName, songLength) {
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
  };
+
+//click on the img and switch to another album
+
+
+var albums = [ albumMarconi, albumPicasso, albumCapoeira];
+var switchAlbums = function() {
+    for (var i = 0 ; i<albums.length ; i++) {
+         if (i === albums.length) {
+            i=0;
+        }
+        setCurrentAlbum(albums[i]);
+       
+    }
+};
+document.getElementsByClassName('album-cover-art')[0].onclick = function() {switchAlbums(albums)};
+
