@@ -73,11 +73,22 @@ var createSongRow = function(songNumber, songName, songLength) {
 //change pause icon to number when play is clicked on other row
 //no play icon on hover while pause
 
+//When we wrote findParentByClassName(), we did not account for some potential errors that could occur if we used the method elsewhere. For example, the function doesn't check for any situation where an ancestor element with the specified class name didn't exist, nor does it check to see if the starting element has a parent.
+//
+//Re-write the function so that it:
+//Checks to see if a parent exists. If it doesn't, then show an alert that says "No parent found".
+//Shows a different alert when it fails to find a parent with the given class name: "No parent found with that class name".
+
 
 var findParentByClassName = function(element, specificClass) {
         //find parent with specidfied class for switching icon play/pause/number
        if (element) {
             var currentElement = element.parentElement;
+           if (currentElement === null){
+               alert("no parent found");
+           } else if (currentElement.className === null){
+               alert("No parent found with that class name");
+           }
             while(currentElement.className !== specificClass && currentElement !== null) {
                 //go up the DOM tree
                currentElement= currentElement.parentElement;
@@ -109,17 +120,19 @@ var getSongItem = function(element) {
 var clickHandler = function(targetElement) {
     //songItem is the element with the class name .song-item-number
     var songItem = getSongItem(targetElement);
-    //where is currentlyplaying song defined?
+    //where is currentlyplaying song defined?-135
     if(currentlyPlayingSong === null) {
         songItem.innerHTML = pauseButtonTemplate;
         //changes the data-song-number attribut to store the number for later and sets the html to pause button
         currentlyPlayingSong = songItem.getAttribute('data-song-number');
         
     } else if(currentlyPlayingSong === songItem.getAttribute('data-song-number')){  
-        //if the data-song-number has 
+        //
         songItem.innerHTML = playButtonTemplate;
        currentlyPlayingSong = null;
+        
    } else if (currentlyPlayingSong !== songItem.getAttribute('data-song-number')){
+       
        var currentlyPlayingSongElement = document.querySelector('[data-song-number = "' + currentlyPlayingSong + '" ]');
        currentlyPlayingSongElement.innerHTML = currentlyPlayingSongElement.getAttribute('data-song-number');
        songItem.innerHTML = pauseButtonTemplate;
@@ -127,29 +140,32 @@ var clickHandler = function(targetElement) {
    }
 };
 
-
+//table of songs from the chosen album
 var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+//row for each song
 var songRows = document.getElementsByClassName('album-view-song-item');
 var currentlyPlayingSong = null;
 
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
- 
+    //
      songListContainer.addEventListener('mouseover', function(event) {
         //  #1
         console.log(event.target);
+         // if you hover over any child part of the row for a song
         if (event.target.parentElement.className === 'album-view-song-item') {
             //change the content from the number to the play button's html
             event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
-            
+            // this songItem is the element with class of song-item-title that is being hovered over
              var songItem = getSongItem(event.target);
+            // property is undefined in the console
              if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong ){
             songItem.innerHTML = playButtonTemplate;
         }
         }
      });
      for (var i = 0 ; i< songRows.length ; i++) {
-         songRows[i].addEventListener('mouseleave', function (event) {
+         songRows[i].addEventListener('mouseleave', function(event) {
              var songItem = getSongItem(event.target);
              var songItemNumber = songItem.getAttribute('data-song-number');
              if (songItemNumber !== currentlyPlayingSong) {
