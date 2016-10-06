@@ -185,10 +185,7 @@ var setSong = function(songNumber) {
 var getSongNumberCell = function (number) {
 //    Write a function named getSongNumberCell that takes one argument, number, and returns the song number element that corresponds to that song number.
     
-     songNumberCell = $(this).find('.song-item-number');
-    songNumber = parseInt(songNumberCell.attr('data-song-number'));
-    
-//    return SongNumberCell;
+        return $('.song-item-number[data-song-number="' + number + '"]');
 };
 
 
